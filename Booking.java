@@ -163,6 +163,7 @@ public class Booking extends javax.swing.JFrame implements BookingService{
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jComboBoxJam = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -187,8 +188,10 @@ public class Booking extends javax.swing.JFrame implements BookingService{
         jLabel6.setText("lb3");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 270, -1, -1));
 
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Nama Toko Yang Terpilih");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 300, 40));
+        jLabel7.setFocusable(false);
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 250, 40));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("ID Booking");
@@ -277,6 +280,21 @@ public class Booking extends javax.swing.JFrame implements BookingService{
         jComboBoxJam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxJam.addActionListener(this::jComboBoxJamActionPerformed);
         jPanel1.add(jComboBoxJam, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 130, 200, 40));
+
+        jPanel2.setBackground(java.awt.Color.white);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 140, 60, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GambarBooking.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -492,7 +510,7 @@ jTextArea1.setText(jTable1.getValueAt(baris,4).toString());   // TODO add your h
     }
     
     @Override
-public void simpanBooking() {
+    public void simpanBooking() {
     jButton1ActionPerformed(null);
 }
 
@@ -516,6 +534,7 @@ public void simpanBooking() {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
