@@ -9,19 +9,28 @@ package jef_puff;
  *
  * @author amali
  */
+// Alasan: Connection dipakai untuk menghubungkan form login dengan database users.
 import java.sql.Connection;
+// Alasan: PreparedStatement dipakai untuk menjalankan query login dengan parameter username dan password.
 import java.sql.PreparedStatement;
+// Alasan: ResultSet dipakai untuk mengecek apakah akun ditemukan di database.
 import java.sql.ResultSet;
+// Alasan: JOptionPane dipakai untuk menampilkan pesan login berhasil, gagal, atau error.
 import javax.swing.JOptionPane;
+// Alasan: Class Login adalah form GUI untuk masuk ke aplikasi.
 public class Login extends javax.swing.JFrame {
     
+    // Alasan: Logger dipakai untuk mencatat error pada form Login.
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
 
     /**
      * Creates new form Login
      */
+    // Alasan: Constructor Login dijalankan saat form login dibuat.
     public Login() {
+        // Alasan: Memanggil seluruh komponen GUI login yang dibuat NetBeans.
         initComponents();
+        // Alasan: Form login ditampilkan di tengah layar agar user lebih nyaman.
         setLocationRelativeTo(null);
     }
 
@@ -118,35 +127,51 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
-        // TODO add your handling code here:
+// TODO add your handling code here:
             try {
 
+           // Alasan: Mengambil koneksi database untuk memeriksa username dan password.
            Connection conn = KoneksiDB.getConnection();
 
+           // Alasan: Query ini mencari user yang username dan password-nya sesuai dengan input login.
            String sql = "SELECT * FROM users WHERE username=? AND password=?";
+            // Alasan: Query login disiapkan agar parameter bisa diisi dengan aman.
             PreparedStatement pst = conn.prepareStatement(sql);
 
+            // Alasan: Parameter pertama diisi dengan username dari text field.
             pst.setString(1, jTextFieldUsername.getText());
+            // Alasan: Parameter kedua diisi dengan password dari password field.
             pst.setString(2, String.valueOf(jPasswordField2.getPassword()));
 
+            // Alasan: Query SELECT dijalankan dan hasilnya disimpan di ResultSet.
             ResultSet rs = pst.executeQuery();
             
+            // Alasan: Jika ResultSet punya data, berarti username dan password benar.
             if (rs.next()) {
 
+                // Alasan: Pesan berhasil ditampilkan agar user tahu login sukses.
                 JOptionPane.showMessageDialog(this, "Login Berhasil");
 
+                // Alasan: Objek Customer dibuat sebagai bentuk penggunaan superclass Pengguna dan subclass Customer.
                 Pengguna p = new Customer(jTextFieldUsername.getText());
 
+                // Alasan: instanceof mengecek apakah objek Pengguna sebenarnya adalah Customer sebelum casting.
                 if (p instanceof Customer) {
+                    // Alasan: Casting mengubah referensi Pengguna menjadi Customer agar method Customer bisa dipakai.
                     Customer c = (Customer) p;
+                    // Alasan: Method Customer dipanggil untuk menunjukkan penerapan overriding.
                     c.tampilData();
                 }
 
+                // Alasan: Jika login berhasil, form Menu dibuka.
                 new Menu().setVisible(true);
+                // Alasan: Form login ditutup agar tidak menumpuk setelah pindah ke Menu.
                 this.dispose();
 
+            // Alasan: Bagian else dijalankan ketika akun tidak ditemukan di database.
             }else {
 
+                // Alasan: Pesan gagal login ditampilkan jika input tidak cocok dengan database.
                 JOptionPane.showMessageDialog(this, "Username atau Password Salah");
 
             }
@@ -158,16 +183,18 @@ public class Login extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jButtonLoginActionPerformed
-
+// Alasan : Event ini berjalan saat user memilih pindah ke halaman Register
     private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisterActionPerformed
-        // TODO add your handling code here:
+// TODO add your handling code here:
+        // Alasan: Objek form Register dibuat agar halaman pendaftaran bisa dibuka.
         Register rg = new Register();
+        // Alasan: Form Register ditampilkan ke layar.
         rg.setVisible(true);
     }//GEN-LAST:event_jButtonRegisterActionPerformed
-
     /**
      * @param args the command line arguments
      */
+    // Alasan: Method main dipakai untuk menjalankan form Login secara langsung.
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -187,9 +214,9 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        // Alasan: Form Login dijalankan di EventQueue agar GUI Swing berjalan stabil.
         java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLogin;
     private javax.swing.JButton jButtonLogin2;

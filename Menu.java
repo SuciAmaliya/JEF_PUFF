@@ -11,22 +11,30 @@ package jef_puff;
  */
 import java.awt.Image;
 import javax.swing.ImageIcon;
+// Alasan: JOptionPane dipakai untuk memberi peringatan jika user belum memilih wilayah.
 import javax.swing.JOptionPane;
+// Alasan: Class Menu adalah halaman utama aplikasi setelah login atau saat aplikasi dibuka.
 public class Menu extends javax.swing.JFrame {
     
+    // Alasan: Logger dipakai untuk mencatat error pada halaman Menu.
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Menu.class.getName());
 
     /**
      * Creates new form Menu
      */
+    // Alasan: Constructor Menu dijalankan saat halaman utama dibuat.
     public Menu() {
       
+        // Alasan: Memanggil komponen GUI yang dibuat NetBeans untuk halaman Menu.
         initComponents();
         
+        // Alasan: Menu ditempatkan di tengah layar.
         setLocationRelativeTo(null);
                 
         setSize(1200, 675);   
+        // Alasan: Ukuran Menu dikunci agar desain tetap rapi.
         setResizable(false);
+        // Alasan: Menu ditempatkan di tengah layar.
         setLocationRelativeTo(null);
         
         jCBWilayahJakarta.removeAllItems();
@@ -180,45 +188,63 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+//  Alasan : Event ini berjalan saat tombol Login di halaman Menu ditekan.
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
-        // TODO add your handling code here:
+// TODO add your handling code here:
+        // Alasan: Objek form Login dibuat agar user bisa masuk ke akun.
         Login lg = new Login();
+        // Alasan: Form Login ditampilkan ke layar.
         lg.setVisible(true);
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
+// Alasan : Event ini berjalan saat user menekan tombol Pilih Wilayah.
     private void jButtonPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPilihActionPerformed
-        // TODO add your handling code here:
+// TODO add your handling code here:
+        // Alasan: Wilayah yang dipilih dari combo box diambil sebagai teks.
         String wilayah = jCBWilayahJakarta.getSelectedItem().toString();
 
+    // Alasan: Validasi ini mencegah user lanjut sebelum memilih wilayah yang benar.
     if (wilayah.equals("-- Pilih Wilayah Jakarta --")) {
+   // Alasan: Pesan peringatan ditampilkan ketika user belum memilih wilayah.
    JOptionPane.showMessageDialog(this,
         "Silakan pilih wilayah terlebih dahulu.");
         return;
     }
 
+    // Alasan: Jika user memilih Jakarta Barat, halaman hasil pencarian wilayah dibuka.
     if (wilayah.equals("Jakarta Barat")) {
+        // Alasan: Form WilayahJakarta dibuka untuk menampilkan daftar toko berdasarkan wilayah.
         new WilayahJakarta().setVisible(true);
     }
+    // Alasan: Cabang ini disiapkan untuk pilihan Jakarta Timur.
     else if (wilayah.equals("Jakarta Timur")) {
+        // Alasan: Form WilayahJakarta dibuka untuk menampilkan daftar toko berdasarkan wilayah.
         new WilayahJakarta().setVisible(true);
     }
+    // Alasan: Cabang ini disiapkan untuk pilihan Jakarta Selatan.
     else if (wilayah.equals("Jakarta Selatan")) {
+        // Alasan: Form WilayahJakarta dibuka untuk menampilkan daftar toko berdasarkan wilayah.
         new WilayahJakarta().setVisible(true);
     }
+    // Alasan: Cabang ini disiapkan untuk pilihan Jakarta Pusat.
     else if (wilayah.equals("Jakarta Pusat")) {
+        // Alasan: Form WilayahJakarta dibuka untuk menampilkan daftar toko berdasarkan wilayah.
         new WilayahJakarta().setVisible(true);
     }
+    // Alasan: Cabang ini disiapkan untuk pilihan Jakarta Utara.
     else if (wilayah.equals("Jakarta Utara")) {
+        // Alasan: Form WilayahJakarta dibuka untuk menampilkan daftar toko berdasarkan wilayah.
         new WilayahJakarta().setVisible(true);
     }
 
+    // Alasan: Form Menu ditutup setelah pindah ke halaman wilayah agar window tidak menumpuk.
     dispose();
-
     }//GEN-LAST:event_jButtonPilihActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    // Alasan: Method main dipakai untuk menjalankan halaman Menu secara langsung.
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -238,9 +264,9 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        // Alasan: Form Menu dijalankan di EventQueue agar GUI Swing aman.
         java.awt.EventQueue.invokeLater(() -> new Menu().setVisible(true));
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLogin;
     private javax.swing.JButton jButtonPilih;

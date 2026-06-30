@@ -9,83 +9,127 @@ package jef_puff;
  *
  * @author amali
  */
+// Alasan: Connection dipakai untuk mengambil data tempat dari database.
 import java.sql.Connection;
+// Alasan: PreparedStatement dipakai untuk menjalankan query wilayah dan detail tempat dengan parameter.
 import java.sql.PreparedStatement;
+// Alasan: ResultSet dipakai untuk membaca hasil query tempat dari database.
 import java.sql.ResultSet;
+// Alasan: JLabel dipakai karena label nama, rating, dan lokasi disimpan dalam bentuk array.
 import javax.swing.JLabel;
+// Alasan: JOptionPane dipakai untuk menampilkan error atau peringatan kepada user.
 import javax.swing.JOptionPane;
 
+// Alasan: Class WilayahJakarta adalah form GUI yang menampilkan daftar toko berdasarkan wilayah Jakarta.
 public class WilayahJakarta extends javax.swing.JFrame {
 
+// Alasan: Array ini menyimpan id_tempat untuk maksimal 5 toko yang ditampilkan.
 private int[] idTempat = new int[5];
+// Alasan: Array labelNama memudahkan pengisian nama toko tanpa menulis kode berulang.
 private JLabel[] labelNama;
+// Alasan: Array labelRating memudahkan pengisian rating toko secara berurutan.
 private JLabel[] labelRating;
+// Alasan: Array labelLokasi memudahkan pengisian alamat/lokasi toko secara berurutan.
 private JLabel[] labelLokasi;
     
+    // Alasan: Logger dipakai untuk mencatat error pada halaman wilayah.
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(WilayahJakarta.class.getName());
 
     /**
      * Creates new form WilayahJakarta
      */
+    // Alasan: Variabel wilayah menyimpan nama wilayah yang dipilih user.
     private String wilayah;
     
+// Alasan: Constructor ini dijalankan saat halaman wilayah dibuka.
 public WilayahJakarta() {
+    // Alasan: Ukuran form dikunci supaya layout daftar toko tidak berantakan.
     setResizable(false);
+    // Alasan: Memanggil komponen GUI halaman wilayah yang dibuat NetBeans.
     initComponents();
+    // Alasan: Form wilayah ditampilkan di tengah layar.
     setLocationRelativeTo(null);
+    // Alasan: Parameter wilayah disimpan ke atribut class.
     this.wilayah = wilayah;
 
+    // Alasan: Label nama toko dikumpulkan dalam array agar bisa diisi memakai perulangan.
     labelNama = new JLabel[]{
         jLabelToko1, jLabelToko2, jLabelToko3, jLabelToko4, jLabelToko5
     };
 
+    // Alasan: Label rating dikumpulkan dalam array agar data rating bisa dimasukkan secara otomatis.
     labelRating = new JLabel[]{
         jLabelRating1, jLabelRating2, jLabelRating3, jLabelRating4, jLabelRating5
     };
 
+    // Alasan: Label lokasi dikumpulkan dalam array agar alamat toko bisa dimasukkan secara otomatis.
     labelLokasi = new JLabel[]{
         jLabelLokasi1, jLabelLokasi2, jLabelLokasi3, jLabelLokasi4, jLabelLokasi5
     };
 
+    // Alasan: Tombol ini disembunyikan karena tidak digunakan pada tampilan saat ini.
     jButton8.setVisible(false);
 
+    // Alasan: Data awal yang ditampilkan adalah Jakarta Barat.
     tampilkanDataTempat("Jakarta Barat");
 
+    // Alasan: ActionListener manual ini dibuat agar tombol detail toko kedua membuka halaman Toko sesuai idTempat[1].
     jButtonDetailToko2.addActionListener(e -> {
+    // Alasan: Membuat form Toko untuk data toko kedua pada daftar.
     Toko tk = new Toko(idTempat[1]);
+    // Alasan: Form Toko ditampilkan ke layar.
     tk.setVisible(true);
+    // Alasan: Form wilayah ditutup setelah pindah ke form detail toko.
     dispose();
     });
     
+    // Alasan: ActionListener manual ini dibuat agar tombol detail toko ketiga membuka halaman Toko sesuai idTempat[2].
     jButtonDetailToko3.addActionListener(e -> {
+    // Alasan: Membuat form Toko untuk data toko ketiga pada daftar.
     Toko tk = new Toko(idTempat[2]);
+    // Alasan: Form Toko ditampilkan ke layar.
     tk.setVisible(true);
+    // Alasan: Form wilayah ditutup setelah pindah ke form detail toko.
     dispose();
     });
 }
 
+// Alasan: Method ini mengambil daftar tempat/toko berdasarkan wilayah dari database.
 private void tampilkanDataTempat(String wilayah) {
+    // Alasan: Label wilayah di atas daftar diisi sesuai wilayah yang sedang ditampilkan.
     jLabelWilayahTerpilih.setText(wilayah);
 
+    // Alasan: Query ini mengambil maksimal 5 toko berdasarkan wilayah yang dipilih.
     String sql = "SELECT id_tempat, nama, rating, alamat FROM tempat WHERE wilayah = ? LIMIT 5";
 
     try {
+        // Alasan: Mengambil koneksi database dari class KoneksiDB.
         Connection conn = KoneksiDB.getConnection();
+        // Alasan: Query wilayah disiapkan sebelum parameter wilayah diisi.
         PreparedStatement pst = conn.prepareStatement(sql);
 
+        // Alasan: Parameter wilayah diisi agar hasil query sesuai pilihan wilayah.
         pst.setString(1, wilayah);
 
+        // Alasan: Query SELECT dijalankan dan hasil toko disimpan di ResultSet.
         ResultSet rs = pst.executeQuery();
 
+        // Alasan: Index i dipakai untuk menentukan posisi toko pada array label.
         int i = 0;
 
+        // Alasan: Perulangan membaca data toko dan berhenti maksimal 5 data agar sesuai jumlah label di GUI.
         while (rs.next() && i < 5) {
+            // Alasan: ID tempat disimpan agar tombol Detail tahu toko mana yang harus dibuka.
             idTempat[i] = rs.getInt("id_tempat");
 
+            // Alasan: Nama toko dari database ditampilkan pada label sesuai urutan.
             labelNama[i].setText(rs.getString("nama"));
+            // Alasan: Rating toko ditampilkan dengan ikon bintang agar lebih mudah dibaca.
             labelRating[i].setText("⭐ " + rs.getString("rating"));
+            // Alasan: Alamat toko ditampilkan pada label lokasi.
             labelLokasi[i].setText(rs.getString("alamat"));
 
+            // Alasan: Index dinaikkan agar data berikutnya masuk ke label berikutnya.
             i++;
         }
 
@@ -94,18 +138,26 @@ private void tampilkanDataTempat(String wilayah) {
     }
 }
  
+// Alasan: Method ini menampilkan detail toko dalam popup berdasarkan index toko.
 private void tampilkanDetailPopup(int index) {
+    // Alasan: Query ini mengambil detail lengkap toko berdasarkan id_tempat.
     String sql = "SELECT * FROM tempat WHERE id_tempat = ?";
 
     try {
+        // Alasan: Mengambil koneksi database dari class KoneksiDB.
         Connection conn = KoneksiDB.getConnection();
+        // Alasan: Query wilayah disiapkan sebelum parameter wilayah diisi.
         PreparedStatement pst = conn.prepareStatement(sql);
 
+        // Alasan: Parameter query diisi dengan idTempat sesuai index tombol yang dipilih.
         pst.setInt(1, idTempat[index]);
 
+        // Alasan: Query SELECT dijalankan dan hasil toko disimpan di ResultSet.
         ResultSet rs = pst.executeQuery();
 
+        // Alasan: Jika detail toko ditemukan, isi detail akan disusun menjadi teks popup.
         if (rs.next()) {
+            // Alasan: Variabel detail berisi gabungan informasi toko yang akan ditampilkan di popup.
             String detail =
                     "Nama Toko: " + rs.getString("nama") + "\n"
                     + "Rating: " + rs.getString("rating") + " (" + rs.getString("jumlah_ulasan") + " ulasan)\n"
@@ -115,6 +167,7 @@ private void tampilkanDetailPopup(int index) {
                     + "Jam Buka: " + rs.getString("jam_buka") + "\n\n"
                     + "Deskripsi:\n" + rs.getString("deskripsi");
 
+            // Alasan: Popup detail toko ditampilkan ke user.
             JOptionPane.showMessageDialog(this, detail, "Detail Toko", JOptionPane.INFORMATION_MESSAGE);
         }
 
@@ -123,8 +176,11 @@ private void tampilkanDetailPopup(int index) {
     }
 }
 
+    // Alasan: Constructor ini disiapkan jika form ingin dibuka dengan parameter wilayah tertentu.
     public WilayahJakarta(String wilayah) {
+    // Alasan: Memanggil komponen GUI halaman wilayah yang dibuat NetBeans.
     initComponents();
+    // Alasan: Parameter wilayah disimpan ke atribut class.
     this.wilayah = wilayah;
 }
 
@@ -296,19 +352,23 @@ private void tampilkanDetailPopup(int index) {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Alasan: Event ini berjalan saat tombol back ditekan pada halaman wilayah.
     private void jButtonBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBackActionPerformed
-        // TODO add your handling code here:
+// TODO add your handling code here:
+        // Alasan: Objek Menu dibuat agar user bisa kembali ke halaman utama.
         Menu mn = new Menu();
+        // Alasan: Halaman Menu ditampilkan ke layar.
         mn.setVisible(true);
-
     }//GEN-LAST:event_jButtonBackActionPerformed
-
+// Alasan: Event ini membuka detail toko pertama pada daftar.
     private void jButtonDetailToko1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetailToko1ActionPerformed
+// Alasan: Membuat form Toko berdasarkan id toko pertama.
     Toko tk = new Toko(idTempat[0]);
+    // Alasan: Form Toko ditampilkan ke layar.
     tk.setVisible(true);
     dispose();  // TODO add your handling code here:
     }//GEN-LAST:event_jButtonDetailToko1ActionPerformed
-
+// Alasan: Event ini membuka detail toko kelima pada daftar.
     private void jButtonDetailToko5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetailToko5ActionPerformed
     Toko tk = new Toko(idTempat[4]);
     tk.setVisible(true);
@@ -318,13 +378,15 @@ private void tampilkanDetailPopup(int index) {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
-
+// Alasan: Event ini membuka detail toko keempat pada daftar.
     private void jButtonDetailToko4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDetailToko4ActionPerformed
+// Alasan: Membuat form Toko berdasarkan id toko keempat.
     Toko tk = new Toko(idTempat[3]);
+    // Alasan: Form Toko ditampilkan ke layar.
     tk.setVisible(true);
     dispose();  // TODO add your handling code here:
     }//GEN-LAST:event_jButtonDetailToko4ActionPerformed
-
+// Alasan: Event ini memberi peringatan jika user menekan next tanpa memilih toko.
     private void jButtonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(
@@ -335,9 +397,10 @@ private void tampilkanDetailPopup(int index) {
     );
     }//GEN-LAST:event_jButtonNextActionPerformed
 
-    /**
+/**
      * @param args the command line arguments
      */
+    // Alasan: Method main dipakai untuk menjalankan form WilayahJakarta secara langsung.
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -357,6 +420,7 @@ private void tampilkanDetailPopup(int index) {
         //</editor-fold>
 
         /* Create and display the form */
+        // Alasan: Form WilayahJakarta dijalankan di EventQueue agar GUI Swing stabil.
         java.awt.EventQueue.invokeLater(() -> new WilayahJakarta().setVisible(true));
     }
 

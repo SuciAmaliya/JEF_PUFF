@@ -9,20 +9,29 @@ package jef_puff;
  *
  * @author amali
  */
+// Alasan: Connection dipakai untuk menghubungkan form Register ke database users.
 import java.sql.Connection;
+// Alasan: PreparedStatement dipakai untuk menyimpan data akun dengan query berparameter.
 import java.sql.PreparedStatement;
+// Alasan: JOptionPane dipakai untuk menampilkan validasi dan pesan registrasi.
 import javax.swing.JOptionPane;
+// Alasan: Class Register adalah form GUI untuk membuat akun baru.
 public class Register extends javax.swing.JFrame {
     
+    // Alasan: Logger dipakai untuk mencatat error pada form Register.
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Register.class.getName());
 
     /**
      * Creates new form Register
      */
+    // Alasan: Constructor Register dijalankan saat halaman pendaftaran dibuka.
     public Register() {
      
+    // Alasan: Ukuran form dikunci agar tampilan register tidak berubah.
     setResizable(false);
+    // Alasan: Memanggil komponen GUI register yang dibuat NetBeans.
     initComponents();
+    // Alasan: Form Register ditampilkan di tengah layar.
     setLocationRelativeTo(null);
 
     }
@@ -72,6 +81,7 @@ public class Register extends javax.swing.JFrame {
         jTextFieldMasukkanNama.setText("Masukkan nama lengkap");
         jTextFieldMasukkanNama.setBorder(null);
         jTextFieldMasukkanNama.setPreferredSize(new java.awt.Dimension(169, 23));
+        jTextFieldMasukkanNama.addActionListener(this::jTextFieldMasukkanNamaActionPerformed);
         jPanel1.add(jTextFieldMasukkanNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 203, 370, 40));
 
         jLabel4.setText("Nama Lengkap");
@@ -177,44 +187,60 @@ public class Register extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+//Alasan : Event ini berjalan saat user menekan tombol Register.
     private void jButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegisterActionPerformed
-    try {
+try {
 
+        // Alasan: Password dari field pertama diubah menjadi String agar bisa dibandingkan dan disimpan.
         String password = String.valueOf(jPasswordField1.getPassword());
+        // Alasan: Konfirmasi password diambil untuk memastikan user mengetik password yang sama.
         String konfirmasi = String.valueOf(jPasswordField4.getPassword());
 
+        // Alasan: Validasi ini mengecek apakah ada field yang masih kosong.
         if (jTextFieldMasukkanNama.getText().isEmpty()
                 || jTextFieldUsename.getText().isEmpty()
                 || jTextFieldEmail.getText().isEmpty()
                 || password.isEmpty()
                 || konfirmasi.isEmpty()) {
 
+            // Alasan: Pesan ini muncul jika ada data registrasi yang belum diisi.
             JOptionPane.showMessageDialog(this, "Semua data harus diisi!");
             return;
         }
 
+        // Alasan: Validasi ini memastikan password dan konfirmasi password sama.
         if (!password.equals(konfirmasi)) {
 
+        // Alasan: Pesan ini muncul jika password dan konfirmasinya berbeda.
         JOptionPane.showMessageDialog(this, "Password tidak sama!");
         return;
 
     }
+        // Alasan: Mengambil koneksi database untuk menyimpan akun baru.
         Connection conn = KoneksiDB.getConnection();
 
+        // Alasan: Query INSERT dipakai untuk menambahkan akun baru ke tabel users.
         String sql = "INSERT INTO users(username,password,email) VALUES (?,?,?)";
 
+        // Alasan: Query registrasi disiapkan sebelum parameter diisi.
         PreparedStatement pst = conn.prepareStatement(sql);
 
+        // Alasan: Parameter username diisi dari input user.
         pst.setString(1, jTextFieldUsename.getText());
+        // Alasan: Parameter password diisi dari password yang sudah diambil.
         pst.setString(2,password);
+        // Alasan: Parameter email diisi dari input email user.
         pst.setString(3, jTextFieldEmail.getText());
 
+        // Alasan: executeUpdate menjalankan query INSERT ke database.
         pst.executeUpdate();
 
+        // Alasan: Pesan sukses ditampilkan setelah akun berhasil disimpan.
         JOptionPane.showMessageDialog(this, "Registrasi Berhasil");
 
+        // Alasan: Setelah registrasi berhasil, user diarahkan ke halaman Menu.
         new Menu().setVisible(true);
+        // Alasan: Form Register ditutup agar tidak menumpuk.
         this.dispose();
 
     } catch (Exception e) {
@@ -229,36 +255,41 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldEmailActionPerformed
 
     private void jButtonLogin2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogin2ActionPerformed
+// Alasan: Form Login dibuat dan langsung ditampilkan.
         new Login().setVisible(true);
-    this.dispose();        // TODO add your handling code here:
-            
+    this.dispose();        // TODO add your handling code here:            
     }//GEN-LAST:event_jButtonLogin2ActionPerformed
-
+// Alasan: Event ini dipakai untuk show/hide password pertama saat label mata diklik.
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
+// TODO add your handling code here:
         
+    // Alasan: Kondisi ini mengecek apakah password sedang terlihat atau disembunyikan.
     if (jPasswordField1.getEchoChar() == (char)0) {
 
+    // Alasan: Password disembunyikan kembali dengan karakter bullet.
     jPasswordField1.setEchoChar('•');
 
 } else {
 
+    // Alasan: Password dibuat terlihat karena echo character dihapus.
     jPasswordField1.setEchoChar((char)0);
 
 }
 
-
     }//GEN-LAST:event_jLabel1MouseClicked
-
+// Alasan: Event ini dipakai untuk show/hide konfirmasi password.
     private void eyeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eyeMouseClicked
-        // TODO add your handling code here:
+// TODO add your handling code here:
        
+    // Alasan: Kondisi ini mengecek apakah konfirmasi password sedang terlihat atau disembunyikan.
     if (jPasswordField4.getEchoChar() == (char)0) {
         
+        // Alasan: Konfirmasi password disembunyikan kembali dengan karakter bullet.
         jPasswordField4.setEchoChar('•');
 
     } else {
 
+        // Alasan: Konfirmasi password dibuat terlihat karena echo character dihapus.
         jPasswordField4.setEchoChar((char)0);
 
     
@@ -266,7 +297,7 @@ public class Register extends javax.swing.JFrame {
 }
         
     }//GEN-LAST:event_eyeMouseClicked
-
+// Alasan: Event ini membuka halaman Login dari link Login di form Register.
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         // TODO add your handling code here:
         Login lg = new Login();
@@ -274,9 +305,13 @@ public class Register extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
-    /**
+    private void jTextFieldMasukkanNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMasukkanNamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMasukkanNamaActionPerformed
+/**
      * @param args the command line arguments
      */
+    // Alasan: Method main dipakai untuk menjalankan form Register langsung.
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -296,6 +331,7 @@ public class Register extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        // Alasan: Form Register dijalankan di EventQueue agar GUI Swing stabil.
         java.awt.EventQueue.invokeLater(() -> new Register().setVisible(true));
     }
 
